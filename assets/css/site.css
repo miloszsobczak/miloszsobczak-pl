@@ -1,0 +1,280 @@
+/* ==========================================================================
+   miloszsobczak.pl — v3.1 "plain"
+   Text first. Monochrome; the monogram's two greys are the only colour.
+   No decoration beyond the logo, no scroll effects. JS only adds
+   the theme toggle, copy, print and the local clock.
+   ========================================================================== */
+
+:root {
+    --paper: #fff;
+    --ink: #231f20;
+    --mute: #5b5a5d;
+    --line: #e2e1e2;
+    --mark-a: #a19fa1;
+    --mark-b: #646264;
+
+    --sans: "Schibsted Grotesk", "Helvetica Neue", Helvetica, sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    --max: 48rem;
+    --gut: clamp(1.25rem, 5vw, 2.5rem);
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+    color-scheme: light dark;
+}
+
+:root[data-theme="dark"] {
+    --paper: #1c191a;
+    --ink: #f3f2f2;
+    --mute: #aaa8ab;
+    --line: #353132;
+    --mark-a: #777375;
+    --mark-b: #c4c1c4;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+        --paper: #1c191a;
+        --ink: #f3f2f2;
+        --mute: #aaa8ab;
+        --line: #353132;
+        --mark-a: #777375;
+        --mark-b: #c4c1c4;
+    }
+}
+
+/* ---------- base ---------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font: 400 1.0625rem/1.65 var(--sans);
+    color: var(--ink);
+    background: var(--paper);
+    -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--ink); color: var(--paper); }
+
+a { color: inherit; text-decoration: none; }
+img, svg { display: block; max-width: 100%; }
+img { height: auto; }
+h1, h2, h3, p, ul, ol, dl, dd, figure, blockquote { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+strong { font-weight: 500; }
+button { font: inherit; color: inherit; }
+[hidden] { display: none !important; }
+
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+.skip {
+    position: absolute; left: var(--gut); top: -4rem; z-index: 20;
+    padding: .5rem 1rem; background: var(--ink); color: var(--paper);
+}
+.skip:focus { top: 1rem; }
+
+.wrap { width: 100%; max-width: var(--max); margin: 0 auto; padding: 0 var(--gut); }
+
+/* ---------- primitives ---------- */
+
+.label { font-size: .875rem; color: var(--mute); }
+
+.lead { font-size: 1.25rem; line-height: 1.5; }
+
+/* underlined text links */
+.links a, .link, .prose a, .company a, .contact-strip a, .email a {
+    text-decoration: underline;
+    text-decoration-color: var(--line);
+    text-decoration-thickness: 1px;
+    text-underline-offset: .25em;
+    transition: text-decoration-color .2s;
+}
+.links a:hover, .link:hover, .prose a:hover, .company a:hover, .contact-strip a:hover, .email a:hover {
+    text-decoration-color: currentColor;
+}
+
+.btn {
+    padding: .45rem .9rem;
+    border: 1px solid var(--line); border-radius: 0;
+    background: none; cursor: pointer; font-size: .9375rem;
+    transition: border-color .2s;
+}
+.btn:hover { border-color: var(--ink); }
+
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1.5rem; }
+
+.section-title {
+    margin-bottom: 1.25rem; padding-bottom: .6rem;
+    border-bottom: 1px solid var(--line);
+    font-size: 1rem; font-weight: 500;
+}
+
+/* ---------- monogram ---------- */
+
+.mark .a { fill: var(--mark-a); }
+.mark .b { fill: var(--mark-b); }
+.mark .layer { transition: transform .6s var(--ease); }
+.brand:hover .mark .b { transform: translate(14px, -10px); }
+
+/* ---------- header / footer ---------- */
+
+.site-header .wrap {
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    min-height: 4.5rem;
+}
+.brand { display: flex; align-items: center; gap: .75rem; font-weight: 500; }
+.brand .mark { width: 2rem; }
+
+.nav-wrap { display: flex; align-items: center; gap: 1.25rem; }
+.nav ul { display: flex; gap: 1.25rem; }
+.nav a { font-size: .9375rem; color: var(--mute); transition: color .2s; }
+.nav a:hover, .nav a[aria-current="page"] { color: var(--ink); }
+
+.theme-toggle {
+    width: 1.75rem; height: 1.75rem; padding: 0;
+    border: 1px solid var(--line); border-radius: 50%;
+    background: none; cursor: pointer; display: grid; place-items: center;
+    transition: border-color .2s;
+}
+.theme-toggle:hover { border-color: var(--ink); }
+.theme-toggle span {
+    width: .7rem; height: .7rem; border-radius: 50%;
+    background: linear-gradient(90deg, var(--ink) 50%, transparent 50%);
+    border: 1px solid var(--ink);
+}
+html:not(.js) .theme-toggle { display: none; }   /* without JS the OS preference decides */
+
+main { flex: 1; min-width: 0; }
+
+.site-footer { margin-top: 5rem; }
+.site-footer .wrap {
+    display: flex; flex-wrap: wrap; justify-content: space-between; gap: .75rem 2rem;
+    padding-top: 1.5rem; padding-bottom: 2rem;
+    background: linear-gradient(var(--line), var(--line)) var(--gut) 0 / calc(100% - 2 * var(--gut)) 1px no-repeat;
+    font-size: .875rem; color: var(--mute);
+}
+.site-footer .social { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; }
+.site-footer .social a:hover { color: var(--ink); }
+
+/* ---------- page head (sub-pages) ---------- */
+
+.page-head { padding: clamp(2.5rem, 8vw, 4.5rem) 0 2.5rem; }
+.page-head h1 {
+    margin: .25rem 0 .75rem;
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    font-weight: 500; line-height: 1.1;
+}
+
+/* ---------- hello ---------- */
+
+.home { padding-top: clamp(2.5rem, 9vw, 5rem); }
+.home-mark { width: 4.5rem; margin-bottom: 2rem; }
+.home h1 { font-size: clamp(2.25rem, 6vw, 3.25rem); font-weight: 500; line-height: 1.05; }
+.home .headline { margin-top: .5rem; font-size: 1.25rem; color: var(--mute); max-width: 30em; }
+.about { margin-top: 2.25rem; max-width: 36em; }
+.about p + p { margin-top: 1rem; }
+
+.meta { margin-top: 2.25rem; display: grid; gap: .35rem; }
+.meta div { display: grid; grid-template-columns: 5rem 1fr; gap: 1rem; }
+.meta dt { color: var(--mute); }
+
+.links { display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; margin-top: 2.25rem; font-weight: 500; }
+
+/* ---------- resume ---------- */
+
+.resume-top { display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
+.resume-top .actions { margin-top: 1.25rem; }
+.portrait { flex: none; width: clamp(6rem, 14vw, 8.5rem); }
+.portrait img { width: 100%; border-radius: 50%; filter: grayscale(1); }
+
+.contact-strip { display: flex; flex-wrap: wrap; gap: .25rem 1.25rem; margin-top: 1.75rem; color: var(--mute); font-size: .9375rem; }
+
+.resume-section + .resume-section { margin-top: 3.5rem; }
+
+.job {
+    display: grid; grid-template-columns: 7.5rem 1fr; gap: .25rem 1.5rem;
+    padding: 1.25rem 0; border-bottom: 1px solid var(--line);
+}
+.job > * { min-width: 0; }
+.job:first-child { padding-top: 0; }
+.job:last-child { border-bottom: 0; }
+.job-when { padding-top: .1rem; }
+.company { font-size: 1.0625rem; font-weight: 500; }
+.role { display: block; }
+.role .label { margin-left: .4rem; }
+.job .summary { margin-top: .5rem; }
+.bullets { margin-top: .5rem; color: var(--mute); }
+.bullets { list-style: disc; padding-left: 1.1rem; }
+.bullets li { margin-top: .2rem; }
+.stack { margin-top: .5rem; }
+
+.toolbox { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem 2rem; }
+.toolbox h3 { font-size: 1rem; font-weight: 500; }
+.toolbox p { color: var(--mute); }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+
+.plain li { display: flex; justify-content: space-between; gap: 1rem; padding: .35rem 0; }
+
+/* ---------- contact ---------- */
+
+.email { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1.25rem; }
+.email a { font-size: clamp(1.35rem, 4vw, 1.75rem); font-weight: 500; overflow-wrap: anywhere; }
+
+.channels { margin-top: 2rem; }
+.channels li { display: grid; grid-template-columns: 6.5rem 1fr; gap: 1rem; padding: .45rem 0; }
+.channels .label { font-size: inherit; }
+.channels a:hover { text-decoration: underline; text-underline-offset: .25em; }
+
+/* ---------- blog ---------- */
+
+.empty p { color: var(--mute); }
+.empty .actions { margin-top: 1rem; }
+
+.post-row {
+    display: grid; grid-template-columns: 7.5rem 1fr auto; gap: 1rem; align-items: baseline;
+    padding: .75rem 0; border-bottom: 1px solid var(--line);
+}
+.post-row h2 { font-size: 1.0625rem; font-weight: 500; }
+.post-row:hover h2 { text-decoration: underline; text-underline-offset: .25em; }
+
+.prose > * + * { margin-top: 1.25rem; }
+.prose h2 { margin-top: 2.5rem; font-size: 1.375rem; font-weight: 500; }
+.prose ul { list-style: disc; padding-left: 1.25rem; }
+.prose code { font-family: var(--mono); font-size: .9em; }
+.prose pre { overflow-x: auto; padding: 1rem 1.25rem; border: 1px solid var(--line); }
+.prose blockquote { padding-left: 1.25rem; border-left: 2px solid var(--mark-b); color: var(--mute); }
+
+/* ---------- small screens ---------- */
+
+@media (max-width: 640px) {
+    .brand-name, .nav li:first-child { display: none; }
+    .nav ul, .nav-wrap { gap: 1rem; }
+    .two-col, .toolbox { grid-template-columns: 1fr; }
+    .job { grid-template-columns: 1fr; }
+    .resume-top { flex-direction: column-reverse; align-items: flex-start; }
+    .post-row { grid-template-columns: 1fr; gap: .15rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition-duration: .01ms !important; }
+}
+
+/* ---------- print — the resume page doubles as a PDF ---------- */
+
+@media print {
+    @page { margin: 14mm; }
+    :root { --paper: #fff; --ink: #000; --mute: #333; --line: #ccc; }
+    body { font-size: 10pt; }
+    .site-header, .site-footer, .no-print, .skip { display: none !important; }
+    .page-head { padding: 0 0 6mm; }
+    .job { break-inside: avoid; padding: 3mm 0; }
+    .resume-section + .resume-section { margin-top: 8mm; }
+    .section-title { margin-bottom: 4mm; break-after: avoid; }
+    a { text-decoration: none !important; }
+}

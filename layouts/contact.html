@@ -1,0 +1,18 @@
+{{ define "main" }}
+<div class="wrap">
+    {{ partial "page-head.html" . }}
+
+    <p class="email">
+        <a href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a>
+        <button class="btn" type="button" data-copy="{{ site.Params.email }}" hidden>Copy</button>
+    </p>
+
+    <ul class="channels">
+        <li><span class="label">Phone</span><a href="tel:{{ replace site.Params.phone " " "" }}">{{ site.Params.phone }}</a></li>
+        {{- range site.Params.social }}
+        <li><span class="label">{{ .name }}</span><a href="{{ .url }}" rel="me">{{ .handle }}</a></li>
+        {{- end }}
+        <li><span class="label">Based in</span><span>{{ site.Params.location }}<span class="label" data-clock hidden>, <time></time> local time</span></span></li>
+    </ul>
+</div>
+{{ end }}

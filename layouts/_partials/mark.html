@@ -1,0 +1,3 @@
+{{- /* The monogram. Optional dict: class, label (makes it role="img"). */ -}}
+{{- $class := .class | default "" -}}
+<svg class="mark {{ $class }}" viewBox="0 0 590.89 377.72" {{ with .label }}role="img" aria-label="{{ . }}"{{ else }}aria-hidden="true" focusable="false"{{ end }}><g class="layer a"><use href="#ms-a"/></g><g class="layer b"><use href="#ms-b"/></g></svg>

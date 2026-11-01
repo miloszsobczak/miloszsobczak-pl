@@ -1,0 +1,8 @@
+<section aria-labelledby="{{ .id }}">
+    <h2 class="section-title" id="{{ .id }}">{{ .title }}</h2>
+    <ul class="plain">
+        {{- range .items }}
+        <li>{{ .name }}{{ with .note }} <span class="label">{{ . }}</span>{{ end }}</li>
+        {{- end }}
+    </ul>
+</section>

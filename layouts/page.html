@@ -1,0 +1,12 @@
+{{ define "main" }}
+<article class="wrap">
+    <header class="page-head">
+        <p class="label"><a href="/blog/">Blog</a>, <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2 Jan 2006" }}</time>, {{ .ReadingTime }} min read</p>
+        <h1>{{ .Title }}</h1>
+        {{ with .Description }}<p class="lead">{{ . }}</p>{{ end }}
+    </header>
+    <div class="prose">
+        {{ .Content }}
+    </div>
+</article>
+{{ end }}

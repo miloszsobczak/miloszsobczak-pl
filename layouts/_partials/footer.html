@@ -1,0 +1,11 @@
+<footer class="site-footer">
+    <div class="wrap">
+        <p class="label">&copy; {{ now.Year }} {{ site.Title }}, {{ site.Params.location }}</p>
+        <ul class="social label">
+            {{- range site.Params.social }}
+            <li><a href="{{ .url }}" rel="me">{{ .name }}</a></li>
+            {{- end }}
+            <li><a href="mailto:{{ site.Params.email }}">E-mail</a></li>
+        </ul>
+    </div>
+</footer>
