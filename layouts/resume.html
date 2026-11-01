@@ -1,0 +1,67 @@
+{{ define "main" }}
+{{- $r := hugo.Data.resume }}
+<div class="wrap">
+    <header class="page-head">
+        <div class="resume-top">
+            <div>
+                <h1>{{ site.Title }}</h1>
+                <p class="lead">{{ .Params.lead | markdownify }}</p>
+                <p class="actions no-print"><button class="btn" type="button" data-print hidden>Save as PDF</button></p>
+            </div>
+            {{- with resources.Get site.Params.avatar }}
+            {{- $s := .Fill "176x176 webp q80" }}{{ $l := .Fill "352x352 webp q80" }}
+            <figure class="portrait"><img src="{{ $l.RelPermalink }}" srcset="{{ $s.RelPermalink }} 176w, {{ $l.RelPermalink }} 352w" sizes="(max-width: 760px) 7rem, 11rem" width="352" height="352" alt="Portrait of {{ site.Title }}"></figure>
+            {{- end }}
+        </div>
+        <p class="contact-strip">
+            <a href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a>
+            <a href="tel:{{ replace site.Params.phone " " "" }}">{{ site.Params.phone }}</a>
+            {{- range site.Params.social }}{{ if ne .name "X" }}
+            <a href="{{ .url }}">{{ replaceRE `^https?://(www\.)?` "" .url }}</a>
+            {{- end }}{{ end }}
+            <span>{{ site.Params.location }}</span>
+        </p>
+    </header>
+
+    <section class="resume-section" aria-labelledby="exp">
+        <h2 class="section-title" id="exp">Experience</h2>
+        <ol class="jobs">
+            {{- range $r.jobs }}
+            <li class="job{{ if .current }} is-current{{ end }}" id="{{ .id }}">
+                <p class="label job-when">{{ .when }}</p>
+                <div>
+                    <h3 class="company">{{ if .url }}<a href="{{ .url }}">{{ .company }}</a>{{ else }}{{ .company }}{{ end }}</h3>
+                    {{- range .roles }}
+                    <span class="role">{{ .title }}<span class="label">{{ .dates }}</span></span>
+                    {{- end }}
+                    {{- with .location }}<span class="label">{{ . }}</span>{{ end }}
+                    {{- with .summary }}<p class="summary">{{ . }}</p>{{ end }}
+                    {{- with .bullets }}
+                    <ul class="bullets">{{ range . }}<li>{{ . }}</li>{{ end }}</ul>
+                    {{- end }}
+                    {{- with .stack }}<p class="label stack">{{ . }}</p>{{ end }}
+                </div>
+            </li>
+            {{- end }}
+        </ol>
+    </section>
+
+    <section class="resume-section" aria-labelledby="tools">
+        <h2 class="section-title" id="tools">Toolbox</h2>
+        <div class="toolbox">
+            {{- range $i, $g := $r.toolbox }}
+            <div><h3>{{ $g.group }}</h3><p>{{ delimit $g.items ", " }}</p></div>
+            {{- end }}
+        </div>
+    </section>
+
+    <div class="two-col resume-section">
+        {{ partial "plain-list.html" (dict "id" "edu" "title" "Education" "items" $r.education) }}
+        {{ partial "plain-list.html" (dict "id" "langs" "title" "Languages" "items" $r.languages) }}
+    </div>
+
+    <div class="two-col resume-section">
+        {{ partial "plain-list.html" (dict "id" "facts" "title" "Facts" "items" $r.facts) }}
+    </div>
+</div>
+{{ end }}

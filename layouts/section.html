@@ -1,0 +1,23 @@
+{{ define "main" }}
+<div class="wrap">
+    {{ partial "page-head.html" . }}
+
+    {{- with .Pages }}
+    <ol class="posts">
+        {{- range $i, $p := . }}
+        <li><a class="post-row" href="{{ $p.RelPermalink }}">
+            <time class="label" datetime="{{ $p.Date.Format "2006-01-02" }}">{{ $p.Date.Format "2 Jan 2006" }}</time>
+            <h2>{{ $p.Title }}</h2>
+            <span class="label">{{ $p.ReadingTime }} min read</span>
+        </a></li>
+        {{- end }}
+    </ol>
+    {{- else }}
+    <section class="empty" aria-labelledby="empty-title">
+        <h2 class="section-title" id="empty-title">Nothing published yet</h2>
+        <p>The first posts are in the works. Meanwhile, I'm on
+            {{- range $i, $s := first 2 site.Params.social }}{{ if $i }} and{{ end }} <a class="link" href="{{ $s.url }}">{{ $s.name }}</a>{{ end }}.</p>
+    </section>
+    {{- end }}
+</div>
+{{ end }}

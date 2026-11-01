@@ -1,0 +1,19 @@
+{{ define "main" }}
+<div class="wrap home">
+    {{ partial "mark.html" (dict "class" "home-mark" "label" "Miłosz Sobczak monogram") }}
+    <h1>{{ site.Title }}</h1>
+    <p class="headline">{{ site.Params.role }}. {{ .Params.headline }}</p>
+    <div class="about">{{ .Content }}</div>
+    <dl class="meta">
+        <div><dt>Now</dt><dd>{{ .Params.now }}</dd></div>
+        <div><dt>Before</dt><dd>{{ .Params.before }}</dd></div>
+    </dl>
+    <p class="links">
+        <a href="/resume/">Resume</a>
+        <a href="/contact/">Contact</a>
+        {{- range first 2 site.Params.social }}
+        <a href="{{ .url }}" rel="me">{{ .name }}</a>
+        {{- end }}
+    </p>
+</div>
+{{ end }}

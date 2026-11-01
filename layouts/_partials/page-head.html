@@ -1,0 +1,4 @@
+<header class="page-head">
+    <h1>{{ .Params.heading | default .Title }}</h1>
+    {{ with .Params.lead }}<p class="lead">{{ . | markdownify }}</p>{{ end }}
+</header>

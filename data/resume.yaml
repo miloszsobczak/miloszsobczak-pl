@@ -1,0 +1,147 @@
+# Experience, newest first. `id` is the anchor used by links from the home page.
+jobs:
+  - id: pasteur-labs
+    when: since 2026
+    company: Pasteur Labs & ISI
+    current: true
+    roles:
+      - { title: Staff Product Software Engineer, dates: Jul 2026 - now }
+
+  - id: upbound
+    when: 2022-2026
+    company: Upbound
+    url: https://www.upbound.io/
+    location: Seattle, WA (remote)
+    roles:
+      - { title: Staff Software Engineer, dates: Jan 2024 - Jul 2026 }
+      - { title: Senior Software Engineer, dates: Apr 2022 - Jan 2024 }
+    summary: Led architecture and implementation of product-facing systems at scale.
+    bullets:
+      - Designed and built an interactive graph UI of Kubernetes resource relationships, improving observability and decision-making.
+      - Drove unification of the front-end architecture across repositories, establishing consistent patterns and reducing fragmentation.
+      - Took part in the React to Next.js migration, improving performance and long-term maintainability.
+      - Optimised the GraphQL data layer and worked with back-end services (including Go) for better reliability and performance.
+      - Collaborated on platform-level concerns (Kubernetes / Crossplane) while owning the product-facing experience.
+      - Contributed to engineering hiring and interview design.
+    stack: TypeScript, React, Next.js, GraphQL, Go, Kubernetes, Crossplane
+
+  - id: altimetrik
+    when: 2021-2022
+    company: Altimetrik / PayPal
+    url: https://www.altimetrik.com/
+    roles:
+      - { title: Tech Lead Engineer, dates: Apr 2021 - Mar 2022 }
+    summary: Technical leadership and architectural direction for PayPal's e-commerce integrations.
+    bullets:
+      - Shaped application architecture and technical standards across teams.
+      - Led development of reusable, high-performance components integrated into multiple e-commerce platforms.
+      - Worked across the stack (Node.js, TypeScript, Web Components) to deliver reliable integrations.
+      - Balanced delivery, code quality and long-term maintainability.
+    stack: TypeScript, Web Components, Node.js, PHP, E-commerce
+
+  - id: epam
+    when: 2020-2021
+    company: EPAM Systems / UBS
+    url: https://www.epam.com/
+    location: Poland
+    roles:
+      - { title: Tech Lead Engineer, dates: Jan 2020 - Apr 2021 }
+    summary: Technical leadership on high-performance web applications for financial institutions, including UBS.
+    bullets:
+      - Designed and implemented a framework-agnostic navigation system used across multiple projects.
+      - Integrated micro-frontends to increase modularity and development efficiency.
+      - Worked closely with product and back-end teams on system-level decisions and integrations.
+      - Contributed to performance, reliability and overall architecture of the applications.
+    stack: React, Stencil, Preact, Node.js
+
+  - id: zoovu
+    when: "2019"
+    company: zoovu
+    url: https://zoovu.com/
+    roles:
+      - { title: Head of Custom Development, dates: Apr 2019 - Dec 2019 }
+    summary: Led a team of ~20 engineers delivering custom solutions for Amazon, Microsoft, Whirlpool and Canon.
+    bullets:
+      - Defined and raised development standards and architectural practices.
+      - Owned estimation, delivery and technical direction of projects.
+      - Designed scalable architectures with Vue.js, TypeScript, Node.js and AWS.
+      - Bridged front-end, back-end and infrastructure concerns to deliver end-to-end solutions.
+    stack: Vue.js, TypeScript, Node.js, AWS
+
+  - id: euro-bank
+    when: 2017-2019
+    company: Euro Bank S.A.
+    url: https://eurobank.pl/
+    location: Poland
+    roles:
+      - { title: Lead Software Engineer, dates: Dec 2017 - Mar 2019 }
+    bullets:
+      - First front-end hire; rethought how the bank's applications were built and structured.
+      - Designed and built a new design system of reusable components.
+      - Improved application architecture and development processes across the front-end stack.
+      - Collaborated with back-end teams on integrations and overall system quality.
+    stack: Angular, RxJS, TypeScript
+
+  - id: pixers
+    when: 2014-2017
+    company: Pixers
+    url: https://pixers.pl/
+    location: Poland
+    roles:
+      - { title: Senior Software Engineer / Team Lead, dates: Dec 2015 - Nov 2017 }
+      - { title: Front-end Developer, dates: Feb 2014 - Dec 2015 }
+    bullets:
+      - Rebuilt the e-commerce front end as modular ES2015 and Vue.js components, replacing a non-scalable jQuery codebase.
+      - Led the team as it grew to five people, mentoring and setting technical direction.
+      - Improved architecture, maintainability and delivery speed of the product.
+    stack: ES2015, Vue.js, CSS, PHP
+
+  - id: podpisz-to
+    when: 2012-2014
+    company: Podpisz.to
+    url: https://podpisz.to/
+    location: Bolesławiec
+    roles:
+      - { title: Co-founder & Software Engineer, dates: Jul 2012 - Feb 2014 }
+    bullets:
+      - Co-founded the start-up and raised investment for a four-person team.
+      - "Built the product from scratch: full-stack development, design and team management."
+      - Owned end-to-end delivery of the application.
+    stack: CodeIgniter, jQuery, PHP
+
+  - id: ensila
+    when: 2012-2014
+    company: Ensila Sp. z o.o.
+    roles:
+      - { title: IT Specialist, dates: May 2012 - Feb 2014 }
+    bullets:
+      - Full-stack development and tech ops across the company.
+      - Handled both application development and technical operations.
+
+  - id: freelance
+    when: 2008-2012
+    company: Freelance
+    roles:
+      - { title: Web Developer, dates: Jul 2008 - Jul 2012 }
+    bullets:
+      - Found my own clients and built websites and web applications for them.
+      - Worked across the full stack (PHP, Ruby on Rails, JavaScript frameworks).
+    stack: PHP, Ruby on Rails, Backbone.js
+
+toolbox:
+  - { group: Front-end, items: [TypeScript, JavaScript, React, Next.js, Angular, Vue.js, Web Components, Design systems, Micro-frontends] }
+  - { group: Back-end & e-commerce, items: [Node.js, Go, PHP, GraphQL, Redis, SQL, E-commerce integrations] }
+  - { group: Cloud & platform, items: [Kubernetes, Crossplane, AWS, GCP, GitLab CI/CD, Jenkins, Jest] }
+
+education:
+  - { name: IT Technical Secondary School, note: 2008-2012 }
+
+languages:
+  - { name: Polish, note: Native }
+  - { name: English, note: B2 / C1 }
+
+facts:
+  - { name: Marathon finisher, note: "2013" }
+  - { name: Skydiving classes, note: "2014" }
+  - { name: Co-organised DevMeeting, note: "2014" }
+  - { name: Laureate of the NK.pl investment programme }

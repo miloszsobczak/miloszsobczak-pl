@@ -1,0 +1,17 @@
+<header class="site-header">
+    <div class="wrap">
+        <a class="brand" href="/" aria-label="{{ site.Title }}, home">
+            {{ partial "mark.html" dict }}
+            <span class="brand-name">{{ site.Title }}</span>
+        </a>
+        <div class="nav-wrap">
+            <nav class="nav" aria-label="Main"><ul>
+                {{- range site.Menus.main }}
+                {{- $active := or (eq $.RelPermalink .URL) (and (ne .URL "/") (hasPrefix $.RelPermalink .URL)) }}
+                <li><a href="{{ .URL }}"{{ if $active }} aria-current="page"{{ end }}>{{ .Name }}</a></li>
+                {{- end }}
+            </ul></nav>
+            <button class="theme-toggle" type="button" aria-label="Toggle colour theme"><span></span></button>
+        </div>
+    </div>
+</header>
