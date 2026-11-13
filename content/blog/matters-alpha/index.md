@@ -2,7 +2,7 @@
 title: "Matters: an open-source mail client with your own AI built in"
 date: 2026-11-13
 description: "One place for all your inboxes, and an agent that shows what needs you. It runs on your own Claude or ChatGPT plan, or on a local model."
-draft: true
+draft: false
 ---
 
 > **TL;DR** Matters is an open-source (AGPL-3.0) desktop mail client. It puts all your IMAP
