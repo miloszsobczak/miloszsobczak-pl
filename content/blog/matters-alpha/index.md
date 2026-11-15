@@ -18,7 +18,7 @@ like everything else.
 I wanted one place for every inbox, and an agent that reads them and shows what needs me, with a
 reason I can check. Without giving my whole mailbox to someone else's server. So I built Matters.
 
-**[Get the macOS alpha](https://getmatters.app)** ·
+**[Get the macOS alpha](https://getmatters.app/download.html)** ·
 [Code on GitHub](https://github.com/milolabs/matters-app) ·
 [getmatters.app](https://getmatters.app)
 
@@ -136,13 +136,17 @@ is one short page.
 ## What it doesn't do yet
 
 - **macOS on Apple silicon only.** Linux and Windows builds come later, from the same code.
-- **Not notarized.** The alpha is signed ad hoc, so macOS asks you to allow it. A Developer ID
-  and notarization are the next step.
-- **No auto-update.** Matters tells you when a newer alpha is out, but a newer alpha is a new
-  download.
-- **App passwords for Gmail.** Gmail, iCloud, Fastmail and Yahoo work with an app password.
-  Browser sign-in for Gmail is next.
+- **Not notarized.** The alpha is signed ad hoc. A Developer ID and notarization are the next step.
+- **No auto-update.** Matters tells you when a newer alpha is out. Running the installer again
+  gets it.
+- **Browser sign-in for Microsoft only.** Gmail, iCloud, Fastmail and Yahoo work with an app
+  password; browser sign-in for Gmail is next. In an organisation, an administrator may have to
+  allow Matters for Microsoft 365 first.
 - **No API keys yet.** The agent runs on Claude Code, Codex or Ollama.
+- **Codex does not report the plan's limits,** so background reading stops at the first refusal
+  until you continue it.
+- **With Ollama, it depends on the model.** One that takes tools searches in a loop and reads
+  attached files; a smaller one does less.
 
 Try it with an account whose mail you are fine showing to an alpha.
 
@@ -151,25 +155,30 @@ Try it with an account whose mail you are fine showing to an alpha.
 - Website: [getmatters.app](https://getmatters.app)
 - Code: [github.com/milolabs/matters-app](https://github.com/milolabs/matters-app)
 - Alpha builds and release notes: [Releases](https://github.com/milolabs/matters-app/releases)
+- Updates: [@getmattersapp on X](https://x.com/getmattersapp)
 
-The shortest way to install it is one line in Terminal:
+On a Mac with Apple silicon, the shortest way to install it is one line in Terminal:
 
 ```sh
 curl -fsSL https://getmatters.app/install.sh | bash
 ```
 
-I know what piping a script into `bash` looks like, so here is what this one does. It downloads
-the disk image only from the GitHub releases and checks its SHA-256. If `gh` is installed, it also
-verifies the build attestation. It checks the code signature of the copied app. It never runs
-`sudo`, `xattr` or `spctl`, and never touches the quarantine mark or any setting. The
+I know what piping a script into `bash` looks like, so here is what this one does, and why. A file
+fetched with `curl` is not marked as downloaded, so macOS does not check it and shows no warning.
+The script does the checking instead. It downloads the disk image only from this repository's
+GitHub releases, checks its SHA-256, verifies the build attestation when `gh` is installed, and
+checks the code signature of the copied app. It never runs `sudo`, `xattr` or `spctl`, and changes
+no setting. Running it again installs the newest alpha. The
 [script](https://github.com/milolabs/matters-app/blob/main/site/install.sh) is short enough to read
 first.
 
-You can also do it by hand: download the disk image from the release, check it with
+You can also do it by hand: download the disk image from the
+[download page](https://getmatters.app/download.html), check it with
 `gh attestation verify Matters-0.1.0-alpha.5-arm64.dmg --repo milolabs/matters-app`, and allow it
 in System Settings → Privacy & Security.
 
-To try it without a real account, run it from source on a made-up mailbox, with no model needed:
+To try it without a real account, run it from source on a made-up mailbox of 8,000 messages, with
+no model needed:
 
 ```sh
 git clone https://github.com/milolabs/matters-app.git
