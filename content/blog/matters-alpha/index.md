@@ -1,14 +1,14 @@
 ---
 title: "Matters: an open-source mail client with your own AI built in"
-date: 2026-11-13
+date: 2026-11-15
 description: "One place for all your inboxes, and an agent that shows what needs you. It runs on your own Claude or ChatGPT plan, or on a local model."
 draft: false
 ---
 
-> **TL;DR** Matters is an open-source (AGPL-3.0) desktop mail client. It puts all your IMAP
+> **TL;DR** Matters is an open-source (AGPL-3.0) desktop mail client. It puts all your mail
 > accounts in one fast, local place. An optional agent reads them and shows only the mail that needs
 > you, with a reason for each. The agent runs on your own Claude or ChatGPT plan, or fully offline
-> with Ollama. There is no server of ours in between. The first alpha is out for macOS.
+> with Ollama. There is no server of ours in between. The alpha is out for macOS on Apple silicon.
 
 Nobody likes going through mail. Most of us have more than one inbox, private, work, a side
 project, and each needs its own check. Most of that mail doesn't need you. The few messages that do
@@ -18,7 +18,7 @@ like everything else.
 I wanted one place for every inbox, and an agent that reads them and shows what needs me, with a
 reason I can check. Without giving my whole mailbox to someone else's server. So I built Matters.
 
-**[Download the macOS alpha](https://github.com/milolabs/matters-app/releases)** ·
+**[Get the macOS alpha](https://getmatters.app/download.html)** ·
 [Code on GitHub](https://github.com/milolabs/matters-app) ·
 [getmatters.app](https://getmatters.app)
 
@@ -26,8 +26,9 @@ reason I can check. Without giving my whole mailbox to someone else's server. So
 
 ## One place for every inbox
 
-The base is a normal IMAP/SMTP client. You add your accounts, and Matters syncs all of them into one
-SQLite database on your computer. They show up in one list, with a small coloured dot for each
+You add your accounts, and Matters syncs all of them into one SQLite database on your computer.
+Most accounts use plain IMAP and SMTP. Microsoft 365 and Outlook.com sign in through the browser and
+sync over Microsoft Graph. Setup finds out who runs the mail of an address, and you can correct it. They show up in one list, with a small coloured dot for each
 account. Inside, everything is a label, so Gmail labels and IMAP folders work the same way, and a
 message that arrives in two accounts is recognised as one message.
 
@@ -51,8 +52,8 @@ The first time you turn AI on, Matters adds one such view, called `Needs you`. I
 view: you can edit, rename or delete it. You can write your own in your own words, for example
 "invoices I haven't paid" or "anything from the accountant about this year".
 
-You can also ask the agent about one thread or about all your mail, and have it draft a reply. You
-read the draft and press Send yourself.
+You can also ask the agent about one thread or about all your mail, and have it draft a reply or a
+new message in the tone you ask for. You read the draft and press Send yourself.
 
 ## The agent runs on your plan
 
@@ -65,7 +66,8 @@ have:
 | Codex | your ChatGPT plan | each turn runs with its tools off |
 | Ollama | your own computer | mail never leaves the machine |
 
-API keys are planned as a fourth option, for people who would rather pay per use.
+API keys are next, as a fourth option for people who would rather pay per use. Each runtime is
+one adapter behind a small interface, so another one can be added without touching the core.
 
 With Claude Code, Matters never touches your login. It finds the unmodified `claude` binary, starts
 it, and the CLI signs in on its own. Matters never opens, reads or stores a token.
@@ -74,7 +76,8 @@ it, and the CLI signs in on its own. Matters never opens, reads or stores a toke
 
 Two rules hold everywhere:
 
-- **Plan or nothing.** If a turn would be billed to an API key, it is an error, not a fallback.
+- **Plan or nothing.** A turn that would quietly be billed to an API key is an error, not a
+  fallback.
   Background reading stops at a limit you set, for example 10% of your weekly plan.
 - **No silent switching.** Only the runtime you chose runs. If it isn't available, the agent says
   why and waits. It never sends your mail to another provider on its own.
@@ -91,14 +94,17 @@ The agent is optional. Without it, Matters is meant to be a good mail client on 
 - **Markdown compose.** The editor is CodeMirror. The mail goes out as `multipart/alternative`:
   the Markdown source as `text/plain`, the rendered HTML next to it. Replies quote the original as
   sanitized HTML, never converted.
-- **Designed mail in the dark theme.** If a newsletter has its own dark styles, they are used. If it
-  asks to stay light, it stays light.
+- **Light, dark or as the system.** Plus themes, including ones made from a description. If a
+  newsletter has its own dark styles, they are used; if it asks to stay light, it stays light.
 - **Attachments that never block.** A file downloads when you press it, with progress. A script that
   would run on a double click can be saved or previewed, but not opened.
 - **Notifications only for new mail.** Old mail moved into a folder, a first sync or a backfill
   never fires one, and a message in two folders fires once.
-- **Keyboard first.** `j`/`k`, `e` to archive, `r` to reply, `c` to write, and `z` to undo the last
-  move or send.
+- **Keyboard first.** `j`/`k`, `e` to archive, `r` to reply, `c` to write, `z` to undo the last
+  move or send, and ⇧⌘N to check for new mail now.
+- **Erase everything.** Settings → Storage deletes the mail, saved sign-ins, files and settings
+  from your computer, and says what it could not delete. Removing one account takes all of its data
+  with it.
 
 ## Security: mail is hostile input
 
@@ -129,21 +135,50 @@ is one short page.
 
 ## What it doesn't do yet
 
-- **macOS only.** The alpha is signed ad hoc, not notarized, so macOS asks you to allow it. No
-  auto-update yet.
-- **Password sign-in only.** Gmail, iCloud, Fastmail and Yahoo work with an app password. Microsoft
-  365 and Outlook.com need OAuth, which is not built yet.
+- **macOS on Apple silicon only.** Linux and Windows builds come later, from the same code.
+- **Not notarized.** The alpha is signed ad hoc. A Developer ID and notarization are the next step.
+- **No auto-update.** Matters tells you when a newer alpha is out. Running the installer again
+  gets it.
+- **Browser sign-in for Microsoft only.** Gmail, iCloud, Fastmail and Yahoo work with an app
+  password; browser sign-in for Gmail is next. In an organisation, an administrator may have to
+  allow Matters for Microsoft 365 first.
 - **No API keys yet.** The agent runs on Claude Code, Codex or Ollama.
+- **Codex does not report the plan's limits,** so background reading stops at the first refusal
+  until you continue it.
+- **With Ollama, it depends on the model.** One that takes tools searches in a loop and reads
+  attached files; a smaller one does less.
 
 Try it with an account whose mail you are fine showing to an alpha.
 
 ## Try it
 
-- Alpha download: [Releases](https://github.com/milolabs/matters-app/releases)
-- Code: [github.com/milolabs/matters-app](https://github.com/milolabs/matters-app)
 - Website: [getmatters.app](https://getmatters.app)
+- Code: [github.com/milolabs/matters-app](https://github.com/milolabs/matters-app)
+- Alpha builds and release notes: [Releases](https://github.com/milolabs/matters-app/releases)
+- Updates: [@getmattersapp on X](https://x.com/getmattersapp)
 
-To try it without a real account, run it from source on a made-up mailbox, with no model needed:
+On a Mac with Apple silicon, the shortest way to install it is one line in Terminal:
+
+```sh
+curl -fsSL https://getmatters.app/install.sh | bash
+```
+
+I know what piping a script into `bash` looks like, so here is what this one does, and why. A file
+fetched with `curl` is not marked as downloaded, so macOS does not check it and shows no warning.
+The script does the checking instead. It downloads the disk image only from this repository's
+GitHub releases, checks its SHA-256, verifies the build attestation when `gh` is installed, and
+checks the code signature of the copied app. It never runs `sudo`, `xattr` or `spctl`, and changes
+no setting. Running it again installs the newest alpha. The
+[script](https://github.com/milolabs/matters-app/blob/main/site/install.sh) is short enough to read
+first.
+
+You can also do it by hand: download the disk image from the
+[download page](https://getmatters.app/download.html), check it with
+`gh attestation verify Matters-0.1.0-alpha.5-arm64.dmg --repo milolabs/matters-app`, and allow it
+in System Settings → Privacy & Security.
+
+To try it without a real account, run it from source on a made-up mailbox of 8,000 messages, with
+no model needed:
 
 ```sh
 git clone https://github.com/milolabs/matters-app.git
@@ -216,7 +251,7 @@ with numbers. A few that may be useful outside this project:
 
 ## How I worked: one decision, one record
 
-The project has **132 architecture decision records**. Every change of direction gets one: the
+The project has **139 architecture decision records**. Every change of direction gets one: the
 context, the decision as numbered rules, the consequences. An old ADR is amended or superseded,
 never edited quietly. That is why the section above could be written.
 
